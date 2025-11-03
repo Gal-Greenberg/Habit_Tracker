@@ -1,8 +1,10 @@
 const Habit = require('../models/habitModel.js');
+const validators = require('../utils/validators.js');
 
 exports.getHabits = async (req, res) => {
     try {
-        const habits = await Habit.find();
+        const user = req.body;
+        const habits = await Habit.find(user);
         res.status(200).json(habits);
     }
     catch (error) {
@@ -11,9 +13,13 @@ exports.getHabits = async (req, res) => {
 }
 
 exports.createHabit = async (req, res) => {
-    console.log("try to create habit", req.body);
-    
     try {
+        await validators.validateUserExists(req.body.user);
+        if (req.body.goal) {
+            await validators.validateGoalExists(req.body.goal);
+        }
+
+        // const habit = await Habit.create({ ...req.body, user: req.user._id });
         const habit = await Habit.create(req.body);
         res.status(201).json(habit);
     } catch (error) {
@@ -24,7 +30,7 @@ exports.createHabit = async (req, res) => {
 exports.updateHabit = async (req, res) => {
     const { id } = req.params;
     try {
-        const habit = await Habit.findByIdAndUpdate(id, req.body);
+        const habit = await Habit.findByIdAndUpdate(id, req.body, { new: true });
         res.status(200).json(habit);
     } catch (error) {
         res.status(400).json({ error: error.message });

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const idValidator = require('mongoose-id-validator')
+const enums = require("./enums")
 
 const habitSchema = new mongoose.Schema({
     title: {
@@ -15,19 +15,22 @@ const habitSchema = new mongoose.Schema({
     },
     frequencyUnit: {
         type: String,
-        enum: ["minutes", "hours", "days", "weeks"],
+        enum: enums.FREQUENCY_UNITS,
         required: true,
     },
     progress: {
         type: Number,
         default: 0,
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     goal: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Goals',
     },
 })
-
-habitSchema.plugin(idValidator);
 
 module.exports = mongoose.model("Habit", habitSchema);
