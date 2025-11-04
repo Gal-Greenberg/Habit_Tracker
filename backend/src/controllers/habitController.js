@@ -23,7 +23,8 @@ exports.createHabit = async (req, res) => {
         const habit = await Habit.create(req.body);
         res.status(201).json(habit);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        const status = err.message === 'User not found' ? 404 : 400;
+        res.status(status).json({ error: error.message });
     }
 }
 

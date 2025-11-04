@@ -29,7 +29,7 @@ const habitSchema = new mongoose.Schema({
     },
     goal: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Goals',
+        ref: 'Goal',
     },
 })
 

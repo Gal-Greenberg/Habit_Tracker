@@ -1,8 +1,8 @@
-const habitsController = require('../controllers/habitController.js')
+const habitController = require('../controllers/habitController.js')
 
 module.exports = (router) => {
-    router.get('/habits', habitsController.getHabits),
-    router.post('/habits', habitsController.createHabit),
-    router.patch('/habits/:id', habitsController.updateHabit),
-    router.delete('/habits/:id', habitsController.deleteHabit)
+    router.get('/habits', habitController.getHabits);
+    router.post('/habits', habitController.createHabit);
+    router.patch('/habits/:id', habitController.updateHabit);
+    router.delete('/habits/:id', habitController.deleteHabit);
 }

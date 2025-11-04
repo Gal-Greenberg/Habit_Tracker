@@ -1,8 +1,8 @@
-const golasController = require('../controllers/goalController.js')
+const golaController = require('../controllers/goalController.js')
 
 module.exports = (router) => {
-    router.get('/goals', golasController.getGoals)
-    router.post('/goals', golasController.createGoal),
-    router.patch('/goals/:id', golasController.updateGoal),
-    router.delete('/goals/:id', golasController.deleteGoal)
+    router.get('/goals', golaController.getGoals);
+    router.post('/goals', golaController.createGoal);
+    router.patch('/goals/:id', golaController.updateGoal);
+    router.delete('/goals/:id', golaController.deleteGoal);
 }
