@@ -3,8 +3,7 @@ const validators = require('../utils/validators.js');
 
 exports.getHabits = async (req, res) => {
     try {
-        const user = req.body;
-        const habits = await Habit.find(user);
+        const habits = await Habit.find({ user: req.user._id });
         res.status(200).json(habits);
     }
     catch (error) {
@@ -14,19 +13,12 @@ exports.getHabits = async (req, res) => {
 
 exports.createHabit = async (req, res) => {
     try {
-        console.log(req.body, req.user);
-        // data = req.body;
-        // console.log(data);
-        // data.user = req.user._id;
-        // console.log(data);
-
         // await validators.validateUserExists(req.body.user);
         if (req.body.goal) {
             await validators.validateGoalExists(req.body.goal);
         }
 
         const habit = await Habit.create({ ...req.body, user: req.user._id });
-        // const habit = await Habit.create(body);
         res.status(201).json(habit);
     } catch (error) {
         const status = err.message === 'User not found' ? 404 : 400;
@@ -37,7 +29,7 @@ exports.createHabit = async (req, res) => {
 exports.updateHabit = async (req, res) => {
     const { id } = req.params;
     try {
-        const habit = await Habit.findByIdAndUpdate(id, req.body, { new: true });
+        const habit = await Habit.findByIdAndUpdate(id, { ...req.body, user: req.user._id }, { new: true });
         res.status(200).json(habit);
     } catch (error) {
         res.status(400).json({ error: error.message });

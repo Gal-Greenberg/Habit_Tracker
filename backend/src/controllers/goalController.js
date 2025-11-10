@@ -3,8 +3,7 @@ const validators = require('../utils/validators.js');
 
 exports.getGoals = async (req, res) => {
     try {
-        const user = req.body;
-        const goals = await Goal.find(user);
+        const goals = await Goal.find({ user: req.user._id });
         res.status(200).json(goals);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -13,9 +12,9 @@ exports.getGoals = async (req, res) => {
 
 exports.createGoal = async (req, res) => {
     try {
-        await validators.validateUserExists(req.body.user);
+        // await validators.validateUserExists(req.body.user);
 
-        const goal = await Goal.create(req.body);
+        const goal = await Goal.create({ ...req.body, user: req.user._id });
         res.status(201).json(goal);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -25,7 +24,7 @@ exports.createGoal = async (req, res) => {
 exports.updateGoal = async (req, res) => {
     const { id } = req.params;
     try {
-        const goal = await Goal.findByIdAndUpdate(id, req.body, { new: true });
+        const goal = await Goal.findByIdAndUpdate(id, { ...req.body, user: req.user._id }, { new: true });
         res.status(200).json(goal);
     } catch (error) {
         res.status(400).json({ error: error.message });
