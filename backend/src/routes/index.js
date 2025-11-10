@@ -1,8 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 module.exports = function (router) {
-    const routesPath = __dirname; // <-- התיקיה של הקובץ הזה: backend/src/routes
+    const routesPath = __dirname;
 
     console.log('Loading routes from:', routesPath);
 
@@ -13,23 +15,22 @@ module.exports = function (router) {
         const filePath = path.join(routesPath, file);
         const loaded = require(filePath);
         
-        if (typeof loaded === 'function') {
-            try {
-                loaded(router);
-                console.log(`Loaded route (as function): ${file}`);
-            } catch (err) {
-                console.warn(`Module ${file} is a function but failed when invoked.`, err);
+        try {
+            console.log(filePath);
+            
+            const tempRouter = express.Router();
+            loaded(router);
+
+            if (file !== 'userRoutes.js') {
+                tempRouter.use(authMiddleware);
             }
-            return;
-        }
+            
+            router.loaded = tempRouter;
 
-        if (loaded && loaded.stack && Array.isArray(loaded.stack)) {
-            const routeName = '/' + file.replace(/Routes?\.js$/i, '').replace('.js', '');
-            router.use(routeName, loaded);
-            console.log(`Loaded route (as router): ${file} -> ${routeName}`);
-            return;
+            console.log(router.stack.map(r => r.route?.path));
+            console.log(`Loaded route (as function): ${file}`);
+        } catch (err) {
+            console.warn(`Module ${file} is a function but failed when invoked.`, err);
         }
-
-        console.warn(`Skipping ${file} — exported value not recognized (function or express Router expected).`);
     });
 };
