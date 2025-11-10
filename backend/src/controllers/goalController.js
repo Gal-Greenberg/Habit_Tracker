@@ -1,5 +1,4 @@
 const Goal = require('../models/goalModel.js');
-const validators = require('../utils/validators.js');
 
 exports.getGoals = async (req, res) => {
     try {
@@ -12,8 +11,6 @@ exports.getGoals = async (req, res) => {
 
 exports.createGoal = async (req, res) => {
     try {
-        // await validators.validateUserExists(req.body.user);
-
         const goal = await Goal.create({ ...req.body, user: req.user._id });
         res.status(201).json(goal);
     } catch (error) {
@@ -22,8 +19,9 @@ exports.createGoal = async (req, res) => {
 }
 
 exports.updateGoal = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+
         const goal = await Goal.findByIdAndUpdate(id, { ...req.body, user: req.user._id }, { new: true });
         res.status(200).json(goal);
     } catch (error) {
@@ -32,8 +30,9 @@ exports.updateGoal = async (req, res) => {
 }
 
 exports.deleteGoal = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+
         await Goal.findByIdAndDelete(id);
         res.status(204).send();
     } catch (error) {

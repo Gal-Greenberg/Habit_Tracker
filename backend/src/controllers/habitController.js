@@ -13,7 +13,6 @@ exports.getHabits = async (req, res) => {
 
 exports.createHabit = async (req, res) => {
     try {
-        // await validators.validateUserExists(req.body.user);
         if (req.body.goal) {
             await validators.validateGoalExists(req.body.goal);
         }
@@ -27,8 +26,9 @@ exports.createHabit = async (req, res) => {
 }
 
 exports.updateHabit = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+
         const habit = await Habit.findByIdAndUpdate(id, { ...req.body, user: req.user._id }, { new: true });
         res.status(200).json(habit);
     } catch (error) {
@@ -37,8 +37,9 @@ exports.updateHabit = async (req, res) => {
 }
 
 exports.deleteHabit = async (req, res) => {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
+
         await Habit.findByIdAndDelete(id);
         res.status(204).send();
     } catch (error) {
