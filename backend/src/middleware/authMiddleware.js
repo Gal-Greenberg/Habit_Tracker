@@ -2,11 +2,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 module.exports.authMiddleware = async (req, res, next) => {
+    console.log("check user connection!!!!");
     let token;
 
-    if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+    if (req.headers.authorization) {
         try {
-            token = req.headers.authorization.split(" ")[1];
+            token = req.headers.authorization;
+            
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.user = await User.findById(decoded.id).select("-password");
             next();

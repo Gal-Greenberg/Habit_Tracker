@@ -14,13 +14,19 @@ exports.getHabits = async (req, res) => {
 
 exports.createHabit = async (req, res) => {
     try {
-        await validators.validateUserExists(req.body.user);
+        console.log(req.body, req.user);
+        // data = req.body;
+        // console.log(data);
+        // data.user = req.user._id;
+        // console.log(data);
+
+        // await validators.validateUserExists(req.body.user);
         if (req.body.goal) {
             await validators.validateGoalExists(req.body.goal);
         }
 
-        // const habit = await Habit.create({ ...req.body, user: req.user._id });
-        const habit = await Habit.create(req.body);
+        const habit = await Habit.create({ ...req.body, user: req.user._id });
+        // const habit = await Habit.create(body);
         res.status(201).json(habit);
     } catch (error) {
         const status = err.message === 'User not found' ? 404 : 400;

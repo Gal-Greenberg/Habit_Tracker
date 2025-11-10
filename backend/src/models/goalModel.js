@@ -1,4 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const enums = require("./enums");
 
 const goalSchema = new mongoose.Schema({
     title: {
@@ -14,7 +15,22 @@ const goalSchema = new mongoose.Schema({
     progress: {
         type: Number,
         default: 0,
+        min: 0,
+        max: 100
     },
+    status: {
+        type: String,
+        enum: enums.GOAL_STATUS,
+        default: "not started",
+    },
+    priority: {
+        type: String,
+        enums: enums.GOAL_PRIORITY,
+        default: "medium",
+    },
+    // reminderDates: [{
+    //     type: Date
+    // }],
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
