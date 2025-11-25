@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-const Habits = () => {
-    const [habits, setHabits] = useState([]);
+const Goals = () => {
+    const [goals, setGoals] = useState([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -15,17 +15,17 @@ const Habits = () => {
     }, []);
 
     return (
-        <div className="w-full h-full relative">
+       <div className="w-full h-full relative">
             <div className="mt-6 text-xl text-textMain">
-                {habits.length === 0 && <p>No habits found. Start by creating a new habit!</p>}
+                {goals.length === 0 && <p>No golas found. Start by creating a new goal!</p>}
             </div>
 
             <button className="absolute right-6 bottom-10 bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
-                onClick={() => router.push('/habits/create')}>
-                Create New Habit
+                onClick={() => router.push('/goals/create')}>
+                Create New Goal
             </button>
         </div>
     );
 }
 
-export default Habits;
+export default Goals;

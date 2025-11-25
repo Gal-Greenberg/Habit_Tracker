@@ -1,16 +1,13 @@
 
 const Sidebar = () => {
     return (
-        <aside className="sidebar bg-indigo-100 px-4 lg:px-18 py-4.5 text-slate-800">
+        <aside className="sidebar px-8 py-6">
             <nav>
                 <ul>
-                    <li className="bg-purple-600 text-white px-8 py-2 rounded hover:bg-purple-700">
-                        <a href="/">Dashboard</a>
-                    </li>
-                    <li className="bg-purple-600 text-white px-8 py-2 rounded hover:bg-purple-700 mt-6">
+                    <li className="bg-bgButton text-textMain px-8 py-2 mt-6 rounded hover:bg-bgButtonDark">
                         <a href="/habits">Habits</a>
                     </li>
-                    <li className="bg-purple-600 text-white px-8 py-2 rounded hover:bg-purple-700 mt-6">
+                    <li className="bg-bgButton text-textMain px-8 py-2 mt-10 rounded hover:bg-bgButtonDark">
                         <a href="/goals">Goals</a>
                     </li>
                 </ul>

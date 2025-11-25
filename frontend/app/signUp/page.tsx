@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import { register } from '../../services/auth';
+import { register } from '../services/auth';
 
 const signUp = () => {
     const [userName, setUserName] = useState("");
@@ -18,7 +18,7 @@ const signUp = () => {
         
         try {
             await register(userName, email, password);
-            router.push('/');
+            router.push('/habits');
             router.refresh();
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Sign up failed. Please try again.";
@@ -28,8 +28,8 @@ const signUp = () => {
 
     return (
         <div className="text-center">
-            <p className="text-2xl py-4">Create your account</p>
-            <p className="text-lg py-4">Join Habit Tracker and start building a routine that propels you</p>
+            <p className="text-textMain text-2xl">Create your account</p>
+            <p className="text-textSecondary text-lg py-3">Join Habit Tracker and start building a routine that propels you</p>
             <input
                 type="text"
                 placeholder="User Name"
@@ -52,11 +52,11 @@ const signUp = () => {
             />
             <br />
             <p className="py-3">Already have an account?
-                <Link href="/signIn" className="text-purple-600 hover:underline ml-2">
+                <Link href="/signIn" className="text-bgButton hover:underline ml-2">
                     Login
                 </Link>
             </p>
-            <button className="bg-purple-600 text-white px-10 py-2 rounded hover:bg-purple-700" 
+            <button className="bg-bgButton text-white px-10 py-2 rounded hover:bg-bgButtonDark" 
                 onClick={handleSignUp}>
                 Sign Up
             </button>

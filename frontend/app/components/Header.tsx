@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from "next/link";
 import { useRouter } from 'next/navigation';
 
 const Header = () => {
@@ -10,38 +9,50 @@ const Header = () => {
   useEffect(() => {
     const storedUserName = sessionStorage.getItem("userName");
     setUserName(storedUserName);
-    console.log(storedUserName);
+    // console.log(sessionStorage.getItem("token"));
   });
-  
+
   const handleSignOut = () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("userName");
     setUserName(null);
-    router.push('/')
+    router.push('/');
+    router.refresh();
   };
   
   return (
-    <header className="inline-flex justify-between bg-indigo-100 px-4 lg:px-12 py-6.5 text-slate-800">
-      <h1>Habit Tracker</h1>
+    <header className="inline-flex justify-between px-12 py-8">
+      <div className="inline-flex items-center space-x-4  bg-transparent">
+        <div className="w-10 h-10 rounded-xl app-gradient flex items-center justify-center">
+          <svg viewBox="0 0 24 24"
+            className="w-6 h-6 text-gray-900"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline className="text-textMain" points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h1 className="text-2xl font-semibold gradient-text content-center">Habit Tracker</h1>
+      </div>
       {userName == null ? <div>
-        <Link href="/signIn" className="ml-4 flex-grow">
-          <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-            Sign in
-          </button>
-        </Link>
-        <Link href="/signUp" className="ml-4 flex-grow">
-          <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
-            Sign up
-          </button>
-        </Link>
+        <button className="bg-bgButton text-textMain ml-4 px-4 py-2 rounded hover:bg-bgButtonDark"
+          onClick={() => router.push('/signIn')}>
+          Sign in
+        </button>
+
+        <button className="bg-bgButton text-textMain ml-4 px-4 py-2 rounded hover:bg-bgButtonDark"
+          onClick={() => router.push('/signUp')}>
+          Sign up
+        </button>
       </div> : <div className="inline-flex items-center">
-        <p>Welcome, {userName}</p>
-        <Link href="/signIn" className="ml-4 flex-grow">
-          <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-            onClick={handleSignOut}>
-            Sign out
-          </button>
-        </Link>
+        <p className="text-textMain">Welcome, {userName}</p>
+        <button className="bg-bgButton text-textMain ml-4 px-4 py-2 rounded hover:bg-bgButtonDark"
+          onClick={handleSignOut}>
+          Sign out
+        </button>
       </div>}
     </header>
   );
