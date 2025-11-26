@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 module.exports.authMiddleware = async (req, res, next) => {
-    console.log("check user connection!!!!");
+    // console.log("check user connection!!!!");
     let token;
 
     if (req.headers.authorization) {
