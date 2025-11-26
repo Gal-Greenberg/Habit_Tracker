@@ -63,7 +63,6 @@ const createHabitPage = () => {
             <select className="rounded-md bg-white/10 *:bg-gray-800 w-3xs p-4 text-gray-400 text-sm font-semibold inset-ring-1 inset-ring-white/5 hover:bg-white/20"
                     defaultValue="Day"
                     onChange={(e) => setFrequencyUnit(e.target.value)}>
-                <option value="Hour">Hour</option>
                 <option value="Day">Day</option>
                 <option value="Week">Week</option>
             </select>
