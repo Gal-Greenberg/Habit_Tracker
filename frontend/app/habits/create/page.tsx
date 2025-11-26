@@ -22,7 +22,7 @@ const createHabitPage = () => {
     }, []);
     
     const handleCreateHabit = async () => {
-        if (!title || !description || !frequency || !frequencyUnit) {
+        if (!title || !description || !frequency || frequency === 0 || !frequencyUnit) {
             alert("Please fill in all fields.");
             return;
         }

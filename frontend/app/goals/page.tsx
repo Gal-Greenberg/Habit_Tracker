@@ -20,7 +20,7 @@ const Goals = () => {
     }, []);
 
     return (
-       <div className="w-full h-full relative">
+       <div className="w-full h-full">
             {goals.length === 0 && <p className="mt-6 text-xl text-textMain">No golas found. Start by creating a new goal!</p>}
 
             {goals.map((goal) => (
@@ -30,10 +30,12 @@ const Goals = () => {
                 </div>
             ))}
 
-            <button className="absolute right-6 mb-20 bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
-                onClick={() => router.push('/goals/create')}>
-                Create New Goal
-            </button>
+            <div className="flex justify-end">
+                <button className="bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
+                    onClick={() => router.push('/goals/create')}>
+                    Create New Goal
+                </button>
+            </div>
         </div>
     );
 }

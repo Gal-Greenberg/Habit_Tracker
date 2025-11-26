@@ -14,8 +14,10 @@ export default function RootLayout({
           <Header />
           <div className="flex-1 flex">
             <Sidebar />
-            <div className="bg-bgCard flex-1 mr-12 mb-12 p-6 rounded-lg">
-              {children}
+            <div className="p-6 flex-1">
+              <div className="bg-bgDashboard min-h-full p-6 rounded-lg">
+                {children}
+              </div>
             </div>
           </div>
         </div>

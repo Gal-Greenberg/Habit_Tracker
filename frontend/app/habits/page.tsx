@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getHabits } from 'services/habits';
+import HabitCard from '@/components/HabitCard';
 
 const Habits = () => {
     const [habits, setHabits] = useState<any[]>([]);
@@ -20,20 +21,21 @@ const Habits = () => {
     }, []);
 
     return (
-        <div className="w-full h-full relative">
+        <div className="w-full h-full">
             {habits.length === 0 && <p className="mt-6 text-xl text-textMain">No habits found. Start by creating a new habit!</p>}
 
-            {habits.map((habit) => (
-                <div key={habit._id} className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm">
-                    <h2 className="text-lg font-semibold mb-2">{habit.title}</h2>
-                    <p className="text-gray-600">{habit.description}</p>
-                </div>
-            ))}
-
-            <button className="absolute right-6 bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
-                onClick={() => router.push('/habits/create')}>
-                Create New Habit
-            </button>
+            <div className="grid grid-cols-3 gap-12 m-2 mb-10">
+                {habits.map((habit) => (
+                    <HabitCard key={habit._id} habit={habit} />
+                ))}
+            </div>
+            
+            <div className="flex justify-end">
+                <button className="bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
+                    onClick={() => router.push('/habits/create')}>
+                    Create New Habit
+                </button>
+            </div>
         </div>
     );
 }
