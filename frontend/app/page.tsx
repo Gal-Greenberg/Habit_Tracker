@@ -14,12 +14,12 @@ export default function Home() {
   }, []);
   
   return (
-    <div className="flex">
-      <div className="p-8 pt-20">
+    <div className="flex items-center">
+      <div className="p-8">
         <h1 className="text-textMain text-4xl">Welcome to Habit Tracker!</h1>
         <p className="text-textSecondary mt-6 text-xl">Habit Tracker app designed to help you build positive routines and achieve your goals</p>
       </div>
-      <img src="/welcome.jpeg" className="size-2/5 ml-auto rounded-lg shadow-lg"/>
+      <img src="/welcome.jpeg" className="w-2/5 rounded-lg"/>
     </div>
   );
 }
