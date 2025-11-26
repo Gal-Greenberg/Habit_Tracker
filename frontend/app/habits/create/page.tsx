@@ -9,7 +9,7 @@ const createHabitPage = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [frequency, setFrequency] = useState(0);
-    const [frequencyUnit, setFrequencyUnit] = useState("");
+    const [frequencyUnit, setFrequencyUnit] = useState("Day");
     const [assignedGoal, setAssignedGoal] = useState("");
     const router = useRouter();
 
@@ -56,16 +56,16 @@ const createHabitPage = () => {
             
             <input type="number"
                 placeholder="Frequency"
-                className="border border-gray-300 rounded p-4 mb-6 mr-20 w-sm"
+                className="border border-gray-300 rounded p-4 mb-6 mr-2 w-3xs"
                 onChange={(e) => (setFrequency(Number(e.target.value)))}
             />
-            <select className="rounded-md bg-white/10 *:bg-gray-800 w-xs p-4 text-gray-400 text-sm font-semibold inset-ring-1 inset-ring-white/5 hover:bg-white/20"
-                    defaultValue="select"
+            <div className="inline text-sm text-textMain mb-2 mr-2">times per:</div   >
+            <select className="rounded-md bg-white/10 *:bg-gray-800 w-3xs p-4 text-gray-400 text-sm font-semibold inset-ring-1 inset-ring-white/5 hover:bg-white/20"
+                    defaultValue="Day"
                     onChange={(e) => setFrequencyUnit(e.target.value)}>
-                <option value="select" disabled>Frequency unit</option>
-                <option value="Hours">Hours</option>
-                <option value="Days">Days</option>
-                <option value="Weeks">Weeks</option>
+                <option value="Hour">Hour</option>
+                <option value="Day">Day</option>
+                <option value="Week">Week</option>
             </select>
             <br />
             <select className="rounded-md bg-white/10 *:bg-gray-800 w-lg p-4 text-gray-400 text-sm font-semibold inset-ring-1 inset-ring-white/5 hover:bg-white/20"
