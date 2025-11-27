@@ -10,9 +10,10 @@ export const getGoals = async () => {
     }
 }
 
-export const createGoal = async (title, description, targetDate, status, priority) => {
+export const createGoal = async (data) => {
     try {
-        await api.post("/goals", { title, description, targetDate, status, priority });
+        const response = await api.post("/goals", data);
+        return response.data;
     } catch (error) {
         console.error("Error creating goal:", error.response?.data || error);
         throw error.response?.data || { message: "Failed to create goal" };
@@ -20,7 +21,20 @@ export const createGoal = async (title, description, targetDate, status, priorit
 }
 
 export const updateGoal = async (id, data) => {
+    try {
+        const response = await api.patch(`/goals/${id}`, data);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating goal:", error.response?.data || error);
+        throw error.response?.data || { message: "Failed to update goal" };
+    }
 }
 
 export const deleteGoal = async (id) => {
+    try {
+        await api.delete(`/goals/${id}`);
+    } catch (error) {
+        console.error("Error deleting goal:", error.response?.data || error);
+        throw error.response?.data || { message: "Failed to delete goal" };
+    }
 }

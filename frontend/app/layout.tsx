@@ -1,6 +1,7 @@
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
+import { GoalsProvider } from "context/GoalsContext";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
             <Sidebar />
             <div className="pr-6 pb-6 flex-1">
               <div className="bg-bgDashboard min-h-full p-6 rounded-lg">
-                {children}
+                <GoalsProvider>
+                  {children}
+                </GoalsProvider>
               </div>
             </div>
           </div>

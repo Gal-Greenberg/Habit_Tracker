@@ -1,25 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createHabit } from '../../services/habits';
-import { getGoals } from '../../services/goals';
+import { useGoals } from "@/context/GoalsContext";
 
 const createHabitPage = () => {
-    const [goals, setGoals] = useState([]);
+    const { goals } = useGoals();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [frequency, setFrequency] = useState(0);
     const [frequencyUnit, setFrequencyUnit] = useState("Day");
     const [assignedGoal, setAssignedGoal] = useState("");
     const router = useRouter();
-
-    useEffect(() => {
-        const loadGoals = async () => {
-            const data = await getGoals();
-            setGoals(data);
-        }
-        loadGoals();
-    }, []);
     
     const handleCreateHabit = async () => {
         if (!title || !description || !frequency || frequency === 0 || !frequencyUnit) {

@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { completeHabit } from 'services/habits';
+import { useGoals } from '@/context/GoalsContext';
 
 interface Habit {
-    habit : {
-      _id: string;
-      title: string;
-      description: string;
-      frequencyValue: number;
-      frequencyUnit: string;
-      completionCount: number;
-      goal?: string;
-    }
+  habit : {
+    _id: string;
+    title: string;
+    description: string;
+    frequencyValue: number;
+    frequencyUnit: string;
+    completionCount: number;
+    goal?: string;
+  }
 }
 
 const HabitCard: React.FC<Habit> = ({ habit }) => {
+  const { goals } = useGoals();
   const radius = 50;
   const circumference = 2 * Math.PI * radius;
+  const goal = goals.find(g => g._id === habit.goal);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [extraProgress, setExtraProgress] = useState(0);
 
@@ -75,9 +78,9 @@ const HabitCard: React.FC<Habit> = ({ habit }) => {
       </div>
 
       <div className="min-h-6">
-        {habit.goal && <p className="text-bgButton">part of a goal {habit.goal}</p>}
+        {goal && <p className="text-bgButton">part of a goal {goal.title}</p>}
       </div>
-      <div className="min-h-6">
+      <div className="min-h-6 mt-2">
         {extraProgress > 0 && <p className="text-bgButton text-center">🔥 {extraProgress} Extra Completion!</p>}
       </div>
       

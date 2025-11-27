@@ -1,22 +1,19 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getGoals } from 'services/goals';
+import { useGoals } from "@/context/GoalsContext";
 
 const Goals = () => {
-    const [goals, setGoals] = useState<any[]>([]);
+    const { goals } = useGoals();
     const router = useRouter();
-
+    console.log(goals);
+    
     useEffect(() => {
         const storedUserName = sessionStorage.getItem("userName");
         if (!storedUserName) {
             router.push('/');
             return;
         }
-        getGoals().then(fetchedGoals => {
-            setGoals(fetchedGoals);
-            // console.log(fetchedGoals);
-        });
     }, []);
 
     return (
