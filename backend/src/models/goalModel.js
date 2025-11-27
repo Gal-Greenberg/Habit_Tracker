@@ -17,6 +17,10 @@ const goalSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
+    targetDate: {
+        type: Date,
+        required: true,
+    },
     status: {
         type: String,
         enum: enums.GOAL_STATUS,
