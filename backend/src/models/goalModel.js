@@ -9,14 +9,13 @@ const goalSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    targetDate: {
-        type: Date,
+    targetValue: {
+        type: Number,
+        required: true,
     },
-    progress: {
+    currentValue: {
         type: Number,
         default: 0,
-        min: 0,
-        max: 100
     },
     status: {
         type: String,
