@@ -14,7 +14,7 @@ export default function RootLayout({
           <Header />
           <div className="flex-1 flex">
             <Sidebar />
-            <div className="p-6 flex-1">
+            <div className="pr-6 pb-6 flex-1">
               <div className="bg-bgDashboard min-h-full p-6 rounded-lg">
                 {children}
               </div>

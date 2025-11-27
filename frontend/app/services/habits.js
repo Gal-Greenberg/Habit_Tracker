@@ -30,3 +30,13 @@ export const updateHabit = async (id, data) => {
 
 export const deleteHabit = async (id) => {
 }
+
+export const completeHabit = async (id) => {
+    try {
+        await api.post(`/habits/${id}/complete`);
+    }
+    catch (error) {
+        console.error("Error completing habit:", error.response?.data || error);
+        throw error.response?.data || { message: "Failed to complete habit" };
+    }
+}

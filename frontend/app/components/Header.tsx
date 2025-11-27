@@ -25,7 +25,7 @@ const Header = () => {
       <div className="inline-flex items-center space-x-4  bg-transparent">
         <div className="w-10 h-10 rounded-xl app-gradient flex items-center justify-center">
           <svg viewBox="0 0 24 24"
-            className="w-6 h-6 text-gray-900"
+            className="w-6 h-6 text-textMain"
             fill="none"
             stroke="currentColor"
             strokeWidth="3"

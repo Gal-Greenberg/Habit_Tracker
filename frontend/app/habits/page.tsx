@@ -16,7 +16,8 @@ const Habits = () => {
         }
         getHabits().then(fetchedHabits => {
             setHabits(fetchedHabits);
-            // console.log(fetchedHabits);
+        }).catch(error => {
+            console.error("Error fetching habits:", error);
         });
     }, []);
 
@@ -24,7 +25,7 @@ const Habits = () => {
         <div className="w-full h-full">
             {habits.length === 0 && <p className="mt-6 text-xl text-textMain">No habits found. Start by creating a new habit!</p>}
 
-            <div className="grid grid-cols-3 gap-12 m-2 mb-10">
+            <div className="grid grid-cols-3 gap-12 m-2 mb-6">
                 {habits.map((habit) => (
                     <HabitCard key={habit._id} habit={habit} />
                 ))}
