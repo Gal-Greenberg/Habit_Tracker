@@ -14,7 +14,7 @@ const CreateHabitPage = () => {
     const { goals } = useGoals();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [frequencyValue, setFrequencyValue] = useState(0);
+    const [frequencyValue, setFrequencyValue] = useState<number | undefined>(undefined);
     const [frequencyUnit, setFrequencyUnit] = useState("");
     const [assignedGoal, setAssignedGoal] = useState("");
     const [pageText, setPageText] = useState("");
@@ -29,6 +29,7 @@ const CreateHabitPage = () => {
             setAssignedGoal(existingHabit.goal || "");
             setPageText("Update Habit");
         } else {
+            setFrequencyValue(0);
             setFrequencyUnit("Day");
             setPageText("Create Habit");
         }

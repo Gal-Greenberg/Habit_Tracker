@@ -57,8 +57,9 @@ export const HabitsProvider = ({ children }: ProviderProps) => {
             delete data.goal;
         }
         
-        const updatedHabit = await updateHabit(id, data);
-        setHabits(habits.map(habit => habit._id === id ? updatedHabit : habit));
+        var updatedHabit = await updateHabit(id, data);
+        updatedHabit = calcCompletionCount(updatedHabit)
+        setHabits(habits.map(h => h._id === id ? updatedHabit : h));
     };
 
     const removeHabit = async (id: string) => {
@@ -76,18 +77,31 @@ export const HabitsProvider = ({ children }: ProviderProps) => {
     };
 
     const checkCompletionCount = async (id: string) => {
-        const updatedHabit = habits.find(h => h._id === id);
-        if (updatedHabit.completionCount > updatedHabit.frequencyValue) {
-            updatedHabit.progressPercentage = 100;
-            updatedHabit.extraProgress = updatedHabit.completionCount - updatedHabit.frequencyValue;
-        } else {
-            const percentage = ((updatedHabit.completionCount / updatedHabit.frequencyValue) * 100);
-            updatedHabit.progressPercentage = parseFloat(percentage.toFixed(1));
-            updatedHabit.extraProgress = 0;
-        }
-        setHabits(habits.map(habit => habit._id === id ? updatedHabit : habit));
+        setHabits(prev => {
+            const habit = prev.find(h => h._id === id);
+            const updatedHabit = calcCompletionCount(habit);
+            return prev.map(h => h._id === id ? updatedHabit : h);
+        });
     };
 
+    const calcCompletionCount = (habit: Habit) => {
+        let progressPercentageNew, extraProgressNew;
+
+        if (habit.completionCount > habit.frequencyValue) {
+            progressPercentageNew = 100;
+            extraProgressNew = habit.completionCount - habit.frequencyValue;
+        } else {
+            progressPercentageNew = Number(((habit.completionCount / habit.frequencyValue) * 100).toFixed(1));
+            extraProgressNew = 0;
+        }
+        
+        const updatedHabit = {
+            ...habit,
+            progressPercentage: progressPercentageNew,
+            extraProgress: extraProgressNew,
+        };
+        return updatedHabit;
+    };
 
     return (
         <HabitsContext.Provider value={{ habits, addHabit, editHabit, removeHabit, markCompletion, checkCompletionCount }}>
