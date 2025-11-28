@@ -47,7 +47,6 @@ const CreateHabitPage = () => {
             } else {
                 await addHabit({ title, description, frequencyValue, frequencyUnit: frequencyUnitL, goal: assignedGoal });
             }
-            // await createHabit(title, description, frequency, frequencyUnit, assignedGoal);
             router.push('/habits');
             router.refresh();
         } catch (error) {

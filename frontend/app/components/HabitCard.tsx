@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGoals } from '@/context/GoalsContext';
 import { useHabits, HabitObject } from '@/context/HabitsContext';
 
 const HabitCard: React.FC<HabitObject> = ({ habit }) => {
   const { goals } = useGoals();
-  const { markCompletion, checkCompletionCount } = useHabits();
+  const { removeHabit, markCompletion, checkCompletionCount } = useHabits();
 
   const radius = 50;
   const circumference = 2 * Math.PI * radius;
@@ -62,12 +62,20 @@ const HabitCard: React.FC<HabitObject> = ({ habit }) => {
       </div>
       
       <p className="text-textSecondary mt-2">{habit.frequencyValue} times per {habit.frequencyUnit}</p>
-      <div className="flex justify-between">
-        <button className="text-bgButton w-16 py-2 rounded hover:text-bgButtonDark mt-2"
-            onClick={() => router.push(`/habits/create/${habit._id}`)}>
-          Edit
-        </button>
-        <button className="flex justify-center w-16 py-2 rounded mt-2"
+      <div className="flex justify-between mt-2">
+        <div className="flex">
+          <button className="text-bgButton p-2 mr-4 rounded-full hover:text-bgButtonDark hover:bg-bgDashboard"
+                onClick={() => removeHabit(habit._id)}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          </button>
+          <button className="text-bgButton p-2 rounded-full hover:text-bgButtonDark hover:bg-bgDashboard"
+              onClick={() => router.push(`/habits/create/${habit._id}`)}>
+            Edit
+          </button>
+        </div>
+        <button className="flex justify-center p-2 rounded-full hover:bg-bgDashboard"
             onClick={handleCompleteHabit}>
           <svg viewBox="0 0 24 24"
             className="w-6 h-6"
