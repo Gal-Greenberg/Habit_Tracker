@@ -6,7 +6,6 @@ import { useGoals } from "@/context/GoalsContext";
 const Goals = () => {
     const { goals } = useGoals();
     const router = useRouter();
-    console.log(goals);
     
     useEffect(() => {
         const storedUserName = sessionStorage.getItem("userName");
@@ -24,12 +23,16 @@ const Goals = () => {
                 <div key={goal._id} className="p-4 mb-4 border border-gray-300 rounded-lg shadow-sm">
                     <h2 className="text-lg font-semibold mb-2">{goal.title}</h2>
                     <p className="text-gray-600">{goal.description}</p>
+                    <button className="mt-4 bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
+                        onClick={() => router.push(`/goals/create/${goal._id}`)}>
+                        View Details
+                    </button>
                 </div>
             ))}
 
             <div className="flex justify-end">
                 <button className="bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
-                    onClick={() => router.push('/goals/create')}>
+                    onClick={() => router.push('/goals/create/new')}>
                     Create New Goal
                 </button>
             </div>

@@ -6,7 +6,7 @@ interface ProviderProps {
     children: ReactNode;
 }
 
-interface Goal {
+export interface Goal {
     _id: string;
     title: string;
     description: string;

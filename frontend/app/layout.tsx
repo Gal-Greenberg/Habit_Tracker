@@ -2,6 +2,8 @@ import "./globals.css";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import { GoalsProvider } from "context/GoalsContext";
+import Habits from "habits/page";
+import { HabitsProvider } from "./context/HabitsContext";
 
 export default function RootLayout({
   children,
@@ -13,15 +15,15 @@ export default function RootLayout({
       <body>
         <div className="flex flex-col min-h-screen">
           <Header />
-          <div className="flex-1 flex">
+          <div className="grid grid-cols-[15%_83%] p-6 gap-4">
             <Sidebar />
-            <div className="pr-6 pb-6 flex-1">
               <div className="bg-bgDashboard min-h-full p-6 rounded-lg">
                 <GoalsProvider>
-                  {children}
+                  <HabitsProvider>
+                    {children}
+                  </HabitsProvider>
                 </GoalsProvider>
               </div>
-            </div>
           </div>
         </div>
       </body>

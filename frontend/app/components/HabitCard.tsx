@@ -1,49 +1,26 @@
 import { useEffect, useState } from 'react';
-import { completeHabit } from 'services/habits';
+import { useRouter } from 'next/navigation';
 import { useGoals } from '@/context/GoalsContext';
+import { useHabits, HabitObject } from '@/context/HabitsContext';
 
-interface Habit {
-  habit : {
-    _id: string;
-    title: string;
-    description: string;
-    frequencyValue: number;
-    frequencyUnit: string;
-    completionCount: number;
-    goal?: string;
-  }
-}
-
-const HabitCard: React.FC<Habit> = ({ habit }) => {
+const HabitCard: React.FC<HabitObject> = ({ habit }) => {
   const { goals } = useGoals();
+  const { markCompletion, checkCompletionCount } = useHabits();
+
   const radius = 50;
   const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (habit.progressPercentage / 100) * circumference || 0;
   const goal = goals.find(g => g._id === habit.goal);
-  const [progressPercentage, setProgressPercentage] = useState(0);
-  const [extraProgress, setExtraProgress] = useState(0);
+
+  const router = useRouter();
 
   useEffect(() => {
-    checkCompletionCount();
+    checkCompletionCount(habit._id);
   }, []);
 
-  const handleCompleteHabit = () => {
-    completeHabit(habit._id).then(() => {
-      habit.completionCount += 1;
-      checkCompletionCount();
-    }).catch((error) => {
-      console.error("Error completing habit:", error);
-    });
-  };
-
-  const checkCompletionCount = () => {
-    if (habit.completionCount > habit.frequencyValue) {
-      setProgressPercentage(100);
-      setExtraProgress(habit.completionCount - habit.frequencyValue);
-    } else {
-      const percentage = ((habit.completionCount / habit.frequencyValue) * 100);
-      setProgressPercentage(parseFloat(percentage.toFixed(1)));
-      setExtraProgress(0);
-    }
+  const handleCompleteHabit = async () => {
+    await markCompletion(habit._id);
+    checkCompletionCount(habit._id);
   };
 
   return (
@@ -66,13 +43,13 @@ const HabitCard: React.FC<Habit> = ({ habit }) => {
               strokeWidth="8"
               fill="transparent"
               strokeDasharray={circumference}
-              strokeDashoffset={circumference - (progressPercentage / 100) * circumference}
+              strokeDashoffset={strokeDashoffset}
               className="stroke-bgButtonDark transition-all duration-500 ease-in-out"
               id="progress-circle"
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-textMain">
-            {progressPercentage}%
+            {habit.progressPercentage}%
           </div>
         </div>
       </div>
@@ -81,12 +58,13 @@ const HabitCard: React.FC<Habit> = ({ habit }) => {
         {goal && <p className="text-bgButton">part of a goal {goal.title}</p>}
       </div>
       <div className="min-h-6 mt-2">
-        {extraProgress > 0 && <p className="text-bgButton text-center">🔥 {extraProgress} Extra Completion!</p>}
+        {habit.extraProgress > 0 && <p className="text-bgButton text-center">🔥 {habit.extraProgress} Extra Completion!</p>}
       </div>
       
       <p className="text-textSecondary mt-2">{habit.frequencyValue} times per {habit.frequencyUnit}</p>
       <div className="flex justify-between">
-        <button className="text-bgButton w-16 py-2 rounded hover:text-bgButtonDark mt-2">
+        <button className="text-bgButton w-16 py-2 rounded hover:text-bgButtonDark mt-2"
+            onClick={() => router.push(`/habits/create/${habit._id}`)}>
           Edit
         </button>
         <button className="flex justify-center w-16 py-2 rounded mt-2"

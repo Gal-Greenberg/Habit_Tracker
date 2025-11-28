@@ -1,11 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { getHabits } from 'services/habits';
 import HabitCard from '@/components/HabitCard';
+import { useHabits } from '@/context/HabitsContext';
 
 const Habits = () => {
-    const [habits, setHabits] = useState<any[]>([]);
+    const { habits } = useHabits();
     const router = useRouter();
 
     useEffect(() => {
@@ -14,11 +14,6 @@ const Habits = () => {
             router.push('/');
             return;
         }
-        getHabits().then(fetchedHabits => {
-            setHabits(fetchedHabits);
-        }).catch(error => {
-            console.error("Error fetching habits:", error);
-        });
     }, []);
 
     return (
@@ -33,7 +28,7 @@ const Habits = () => {
             
             <div className="flex justify-end">
                 <button className="bg-bgButton text-white px-4 py-2 rounded hover:bg-bgButtonDark"
-                    onClick={() => router.push('/habits/create')}>
+                    onClick={() => router.push('/habits/create/new')}>
                     Create New Habit
                 </button>
             </div>

@@ -10,15 +10,10 @@ export const getHabits = async () => {
     }
 }
 
-export const createHabit = async (title, description, frequencyValue, frequencyUnit, goal) => {
+export const createHabit = async (data) => {
     try {
-        frequencyUnit = frequencyUnit.toLowerCase();
-        const data = { title, description, frequencyValue, frequencyUnit };
-        if (goal) {
-            data.goal = goal;
-        }
-        
-        await api.post("/habits", data);
+        const response = await api.post("/habits", data);
+        return response.data;
     } catch (error) {
         console.error("Error creating habit:", error.response?.data || error);
         throw error.response?.data || { message: "Failed to create habit" };
@@ -27,7 +22,8 @@ export const createHabit = async (title, description, frequencyValue, frequencyU
 
 export const updateHabit = async (id, data) => {
     try {
-        await api.patch(`/habits/${id}`, data);
+        const response = await api.patch(`/habits/${id}`, data);
+        return response.data;
     } catch (error) {
         console.error("Error updating habit:", error.response?.data || error);
         throw error.response?.data || { message: "Failed to update habit" };
