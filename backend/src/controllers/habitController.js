@@ -27,8 +27,10 @@ exports.createHabit = async (req, res) => {
         }
 
         const habit = await Habit.create({ ...req.body, user: req.user._id });
-        habit.completionCount = await calculateProgressByFrequencyUnit(habit.frequencyUnit, habit._id, req.user._id);
-        res.status(201).json(habit);
+        
+        const habitObj = habit.toObject();
+        habitObj.completionCount = await calculateProgressByFrequencyUnit(habitObj.frequencyUnit, habitObj._id, req.user._id);
+        res.status(201).json(habitObj);
     } catch (error) {
         const status = err.message === 'User not found' ? 404 : 400;
         res.status(status).json({ error: error.message });
@@ -40,8 +42,10 @@ exports.updateHabit = async (req, res) => {
         const { id } = req.params;
 
         const habit = await Habit.findByIdAndUpdate(id, { ...req.body, user: req.user._id }, { new: true });
-        habit.completionCount = await calculateProgressByFrequencyUnit(habit.frequencyUnit, habit._id, req.user._id);
-        res.status(200).json(habit);
+
+        const habitObj = habit.toObject();
+        habitObj.completionCount = await calculateProgressByFrequencyUnit(habitObj.frequencyUnit, habitObj._id, req.user._id);
+        res.status(200).json(habitObj);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
