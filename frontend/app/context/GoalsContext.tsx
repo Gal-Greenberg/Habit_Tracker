@@ -30,6 +30,11 @@ export const GoalsProvider = ({ children }: ProviderProps) => {
     const [goals, setGoals] = useState<any[]>([]);
 
     useEffect(() => {
+        const storedUserName = sessionStorage.getItem("userName");
+        if (!storedUserName) {
+            return;
+        }
+
         getGoals().then(fetchedGoals => {
             setGoals(fetchedGoals);
         }).catch(error => {

@@ -26,7 +26,7 @@ const HabitCard: React.FC<HabitObject> = ({ habit }) => {
   return (
     <div className="bg-black rounded-lg p-4">
       <p className="text-textMain text-xl">{habit.title}</p>
-      <p className="text-textSecondary mt-2">{habit.description}</p>
+      <p className="text-textSecondary mt-2 min-h-12">{habit.description}</p>
 
       <p className="text-textSecondary mt-2">{habit.frequencyUnit} Progress:</p>
       <div className="flex justify-center m-4">

@@ -37,6 +37,11 @@ export const HabitsProvider = ({ children }: ProviderProps) => {
     const [habits, setHabits] = useState<any[]>([]);
 
     useEffect(() => {
+        const storedUserName = sessionStorage.getItem("userName");
+        if (!storedUserName) {
+            return;
+        }
+        
         getHabits().then(fetchedHabits => {
             setHabits(fetchedHabits);
         }).catch(error => {
