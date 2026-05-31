@@ -1,61 +1,32 @@
-const User = require("../models/userModel");
-const { generateToken } = require("../utils/generateToken");
+const userService = require('../services/userService');
 
 exports.register = async (req, res) => {
     try {
         const { userName, email, password } = req.body;
-        
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ error: "User already exists" });
-        }
-   
-        const user = await User.create({ userName, email, password });
-        res.status(201).json({
-            _id: user._id,
-            userName: user.userName,
-            email: user.email,
-            token: generateToken(user._id)
-        });
+        const result = await userService.register(userName, email, password);
+        res.status(201).json(result);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        const status = error.message === 'User already exists' ? 400 : 500;
+        res.status(status).json({ error: error.message });
     }
-}
+};
 
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
-
-        const user = await User.findOne({ email });        
-        if (user && (await user.matchPassword(password))) {
-            res.json({
-                _id: user._id,
-                userName: user.userName,
-                email: user.email,
-                token: generateToken(user._id)
-            });
-        } else {
-            res.status(401).json({ message: "Invalid email or password" });
-        }
+        const result = await userService.login(email, password);
+        res.json(result);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(401).json({ message: error.message });
     }
-}
+};
 
 exports.updateUser = async (req, res) => {
     try {
-        const userId = req.user._id;
-        const updates = req.body;
-
-        const user = await User.findById(userId);
-        if (!user) 
-            return res.status(404).json({ error: 'User not found' });
-
-        Object.assign(user, updates);
-        await user.save();
-
-        res.status(200).json(user).select("-password");
+        const user = await userService.updateUser(req.user._id, req.body);
+        res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        const status = error.message === 'User not found' ? 404 : 500;
+        res.status(status).json({ error: error.message });
     }
-}
+};
