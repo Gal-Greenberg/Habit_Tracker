@@ -28,7 +28,7 @@ const goalSchema = new mongoose.Schema({
     },
     priority: {
         type: String,
-        enums: enums.GOAL_PRIORITY,
+        enum: enums.GOAL_PRIORITY,
         default: "medium",
     },
     // reminderDates: [{

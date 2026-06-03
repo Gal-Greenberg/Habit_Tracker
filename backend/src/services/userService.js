@@ -29,9 +29,17 @@ exports.login = async (email, password) => {
 
 exports.updateUser = async (userId, updates) => {
     const user = await User.findById(userId);
-    if (!user) throw new Error('User not found');
+    
+    if (!user) 
+        throw new Error('User not found');
 
     Object.assign(user, updates);
     await user.save();
-    return user;
+    
+    return {
+        _id: user._id,
+        userName: user.userName,
+        email: user.email,
+        token: generateToken(user._id),
+    };
 };

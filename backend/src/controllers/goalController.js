@@ -29,7 +29,7 @@ exports.updateGoal = async (req, res) => {
 
 exports.deleteGoal = async (req, res) => {
     try {
-        await goalService.deleteGoal(req.params.id);
+        await goalService.deleteGoal(req.params.id, req.user._id);
         res.status(204).send();
     } catch (error) {
         res.status(400).json({ error: error.message });

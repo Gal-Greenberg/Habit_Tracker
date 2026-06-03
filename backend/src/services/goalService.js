@@ -9,9 +9,14 @@ exports.createGoal = async (goalData, userId) => {
 };
 
 exports.updateGoal = async (id, body, userId) => {
-    return await Goal.findByIdAndUpdate(id, { ...body, user: userId }, { new: true });
+    const goal = await Goal.findByIdAndUpdate(id, { ...body, user: userId }, { new: true });
+
+    if (!goal)
+        throw new Error('Goal not found');
+
+    return goal;
 };
 
-exports.deleteGoal = async (id) => {
+exports.deleteGoal = async (id, userId) => {
     await Goal.findByIdAndDelete(id);
 };

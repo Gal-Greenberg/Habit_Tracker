@@ -15,7 +15,8 @@ exports.createHabit = async (req, res) => {
         const habitObj = await habitService.createHabit(req.body, req.user._id);
         res.status(201).json(habitObj);
     } catch (error) {
-        const status = error.message === 'User not found' ? 404 : 400;
+        // const status = error.message === 'User not found' ? 404 : 400;
+        const status = error.message === 'Goal not found' ? 404 : 400;
         res.status(status).json({ error: error.message });
     }
 }
@@ -31,7 +32,7 @@ exports.updateHabit = async (req, res) => {
 
 exports.deleteHabit = async (req, res) => {
     try {
-        await habitService.deleteHabit(req.params.id);
+        await habitService.deleteHabit(req.params.id, req.user._id);
         res.status(204).send();
     } catch (error) {
         res.status(400).json({ error: error.message });

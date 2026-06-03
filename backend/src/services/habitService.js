@@ -28,18 +28,25 @@ exports.createHabit = async (habitData, userId) => {
 
 exports.updateHabit = async (id, body, userId) => {
     const habit = await Habit.findByIdAndUpdate(id, { ...body, user: userId }, { new: true });
+
+    if (!habit)
+        throw new Error('Habit not found');
+
     const habitObj = habit.toObject();
     habitObj.completionCount = await calculateProgressByFrequencyUnit(habitObj.frequencyUnit, habitObj._id, userId);
     return habitObj;
 };
 
-exports.deleteHabit = async (id) => {
+exports.deleteHabit = async (id, userId) => {
     await Habit.findByIdAndDelete(id);
 };
 
 exports.completeHabit = async (id, userId) => {
     const habit = await Habit.findById(id);
-    if (!habit) throw new Error('Habit not found');
+
+    if (!habit)
+        throw new Error('Habit not found');
+    
     await HabitCompletion.create({ habit: id, date: new Date(), user: userId });
     return await calculateProgressByFrequencyUnit(habit.frequencyUnit, id, userId);
 };

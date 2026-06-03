@@ -1,7 +1,7 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const habitService = require('./habitService');
 
-const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 exports.generateContent = async (action, userId) => {
     const habits = await habitService.getHabits(userId);
