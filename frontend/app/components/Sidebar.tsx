@@ -10,6 +10,9 @@ const Sidebar = () => {
                     <li className="bg-bgButton text-textMain px-8 py-2 mt-10 rounded hover:bg-bgButtonDark">
                         <a href="/goals">Goals</a>
                     </li>
+                    <li className="bg-bgButton text-textMain px-8 py-2 mt-10 rounded hover:bg-bgButtonDark">
+                        <a href="/ai">AI</a>
+                    </li>
                 </ul>
             </nav>
         </aside>

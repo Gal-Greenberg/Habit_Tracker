@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import { signIn } from '../services/auth';
@@ -8,6 +8,14 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
+
+    useEffect(() => {
+        const storedUserName = sessionStorage.getItem("userName");
+        if (storedUserName) {
+            router.push('/habits');
+            return;
+        }
+    }, []);
 
     const handleSignIn = async () => {
         if (!email || !password) {
