@@ -2,8 +2,8 @@ const aiService = require('../services/aiService');
 
 exports.generateContent = async (req, res) => {
     try {
-        const { action } = req.body;
-        const insights = await aiService.generateContent(action, req.user._id);
+        const { action, freeQuestion } = req.body;
+        const insights = await aiService.generateContent(action, req.user._id, freeQuestion);
         res.json({ insights });
     } catch (error) {
         console.error('AI error:', error);

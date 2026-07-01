@@ -3,7 +3,7 @@ const habitService = require('./habitService');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-exports.generateContent = async (action, userId) => {
+exports.generateContent = async (action, userId, freeQuestion = null) => {
     const habits = await habitService.getHabits(userId);
 
     const habitsText = habits.length > 0
@@ -13,6 +13,7 @@ exports.generateContent = async (action, userId) => {
     const prompts = {
         review_habits: `You are a friendly habit coach. Here are the user's current habits:\n${habitsText}\n\nRespond in Hebrew with 3 short encouraging insights based on their actual habits.`,
         suggest_new: `You are a friendly habit coach. Here are the user's current habits:\n${habitsText}\n\nSuggest 3 new healthy habits that complement their existing ones. Respond in Hebrew with short, actionable suggestions.`,
+        free_text: `You are a friendly habit coach. Here are the user's current habits:\n${habitsText}\n\nThe user asks: "${freeQuestion}"\n\nRespond in Hebrew with a helpful, personalized answer based on their actual habits.`,
     };
 
     const prompt = prompts[action];
